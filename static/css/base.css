@@ -1,0 +1,72 @@
+header
+{
+	position:relative;
+}
+
+body
+{
+	background-color:#EEDDEE;
+	margin-bottom:150px;
+}
+#wrap
+{
+	position:relative;
+	margin-left:1%;
+}
+
+.album
+{
+	position:relative;
+	margin-top:30px;
+}
+.album dt
+{
+	font-weight:bold;
+}
+.album dd
+{
+	position:absolute;
+	margin-left:0;
+	font-style:italic;
+}
+
+.song
+{
+	margin-top:20px;
+}
+.song dt
+{
+	font-weight:bold;
+}
+
+footer
+{
+	position:fixed;
+	bottom:0;
+	left:0;
+	height:100px;
+	width:100%;
+	background-color:#CCFFDD;
+}
+#np-text
+{
+	position:absolute;
+	left:125px;
+	bottom:25px;
+}
+#np-title
+{
+	position:relative;
+	font-weight:bold;
+}
+#np-artist
+{
+	position:relative;
+}
+
+#np-player
+{
+	position:fixed;
+	bottom:50px;
+	right:10%;
+}

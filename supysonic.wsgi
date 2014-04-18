@@ -18,9 +18,12 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys
-sys.path.insert(0, '/path/to/the/supysonic/app')
 
+import bjoern
+import sys
 from web import create_application
+
+sys.path.insert(0, '/home/jack/Documents/mserve/')
 application = create_application()
 
+bjoern.run(application, '127.0.0.1', 80)

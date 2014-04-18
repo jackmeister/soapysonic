@@ -19,49 +19,15 @@
 -#}
 <!DOCTYPE html>
 <title>Supysonic</title>
-<style>
-	/* Sticky footer method from http://www.cssstickyfooter.com/ */
-	html, body { height: 100%; }
-	#wrap { min-height: 100%; }
-	#main {
-		overflow: auto;
-		padding-bottom: 3em;
-	}
-	#footer {
-		position: relative;
-		margin-top: -3em;
-		height: 3em;
-		clear: both;
-		font-size: 0.8em;
-	}
-	/* Opera fix */
-	body:before {
-		content: "";
-		height: 100%;
-		float: left;
-		width: 0;
-		margin-top: -32767px;
-	}
 
-	.flash {
-		border: dashed 1px red;
-		padding: 2px;
-		margin: 10px;
-	}
-	.flash p {
-		margin: 0;
-		padding: 0;
-	}
-</style>
-<div id="wrap"><div id="main">
-	<h1>Supysonic</h1>
+<link href="/static/css/base.css" rel="stylesheet" type="text/css" media="all" />
 
-	<p><a href="{{ url_for('index') }}">Home</a> |
+<header>
+	<p><a href="{{ url_for('index') }}">Home</a>
 	{% if session.userid %}<a href="{{ url_for('playlist_index') }}">Playlists</a> | <a href="{{ url_for('user_profile') }}">{{ session.username }}</a> - <a href="{{ url_for('logout') }}">Log out</a>
 	{% else %}<a href="{{ url_for('login') }}">Log in</a>
 	{% endif %}</p>
-
-	{% if get_flashed_messages() %}
+		{% if get_flashed_messages() %}
 	<div class="flash">
 		{% for message in get_flashed_messages() %}
 		<p>{{ message }}</p>
@@ -69,6 +35,32 @@
 	</div>
 	{% endif %}
 	{% block body %}{% endblock %}
-</div></div>
-<div id="footer">Supysonic <a href="https://github.com/spl0k/supysonic">source code</a> is available under the <a href="http://www.gnu.org/licenses/agpl-3.0.html">GNU Affero General Public License version 3</a>.</div>
+</header>
 
+<body>
+	<div id="wrap">
+		<div id="library-browser">
+			<h1><div class="title">Loading library...</div></h1>
+		</div>
+	</div>
+</body>
+
+<footer>
+	<div id="now-playing">
+		<div id="np-cover-art">
+		</div>
+		<div id="np-text">
+			<div id='np-title'>
+			</div>
+			<div id="np-artist">
+			</div>
+			<div id="np-album">
+			</div>
+		</div>
+		<div id="np-player">
+		</div>
+	</div>
+</footer>
+
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/browse.js"></script>

@@ -22,31 +22,4 @@
 {% if admin %}
 <p><a href="{{ url_for('user_index') }}">Users</a> | <a href="{{ url_for('folder_index') }}">Folders</a></p>
 {% endif %}
-
-<h2>Hi!</h2>
-<p>There's nothing much to see here.</p>
-<p>If you want to listen to some music, you'll have to use one of the available clients. Here's a small list of clients that have been tested:</p>
-<ul>
-	<li>Web-based / Chrome extentions
-	<ul>
-		<li><a href="http://www.jamstash.com/">Jamstash</a> (also available as a <a href="https://chrome.google.com/webstore/detail/jamstash/jccdpflnecheidefpofmlblgebobbloc">Chrome extension</a>
-		as a Chrome extension. There's a bug though, you'll have to click the "Save" button in the settings each time you open it)</li>
-		<li><a href="http://robinbakker.nl/perisonic/">Perisonic</a> (also as a <a href="https://chrome.google.com/webstore/detail/perisonic/bkdipjpecphmbijlckkkmabnabhbpjbn">Chrome extension</a>; if you just want to go full random)</li>
-	</ul>
-	</li>
-	<li>Android apps
-	<ul>
-		<li>The official <a href="https://play.google.com/store/apps/details?id=net.sourceforge.subsonic.androidapp">Subsonic</a> app</li>
-		<li><a href="https://play.google.com/store/apps/details?id=com.thejoshwa.ultrasonic.androidapp">UltraSonic</a></li>
-	</ul>
-	</li>
-</ul>
-<p>For a more complete list, check the <a href="http://www.subsonic.org/pages/apps.jsp">Subsonic website</a>.</p>
-
-<h2>Stats</h2>
-<ul>
-	<li>{{ stats.artists }} artists</li>
-	<li>{{ stats.albums }} albums</li>
-	<li>{{ stats.tracks }} tracks</li>
-</ul>
 {% endblock %}

@@ -34,7 +34,7 @@ def check():
 		return False
 
 	try:
-		config.get('base', 'database_uri')
+		dburi = config.get('base', 'database_uri')
 	except:
 		print >>sys.stderr, "No database URI set"
 		return False

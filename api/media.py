@@ -131,9 +131,13 @@ def download_media():
 
 @app.route('/rest/getCoverArt.view', methods = [ 'GET', 'POST' ])
 def cover_art():
-	status, res = get_entity(request, Folder)
+	# Use the track id to get the file path.
+	# TODO: support for multiple query types is a matter of a few case statements
+	status, res = get_entity(request, Track)
 	if not status:
 		return res
+
+	res = res.folder
 
 	if not res.has_cover_art or not os.path.isfile(os.path.join(res.path, 'cover.jpg')):
 		return request.error_formatter(70, 'Cover art not found')
@@ -160,7 +164,7 @@ def cover_art():
 
 	im.thumbnail([size, size], Image.ANTIALIAS)
 	im.save(path, 'JPEG')
-	return send_file(path)
+	return send_file(path, mimetype='image/jpeg;base64')
 
 @app.route('/rest/getLyrics.view', methods = [ 'GET', 'POST' ])
 def lyrics():
