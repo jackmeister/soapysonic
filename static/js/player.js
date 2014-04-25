@@ -1,3 +1,26 @@
+// Plays a single song, updating the "now playing" panel appropriately. 
+function playSong( id ) {
+	var fmt = 'ogg';	// streaming format to request
+	// Update the "now playing" panel text
+	$.ajax({
+	'url': '/rest/getSong.view?id=' + id
+	, dataType: 'xml'
+	, 'beforeSend': function( xhr ) {
+		xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username + ':' + password))
+	}
+	, success: function( response, textStatus, jqXHR ) {
+		var $song = $( response ).find( 'song' );
+		$( '#np-title' ).text( $song.attr('title') );
+		$( '#np-artist' ).text( $song.attr('artist') );
+		$( '#np-album' ).text( $song.attr('album') );
+	}
+	});
+	// Update the "now playing" panel cover art
+	$( '#np-cover-art' ).html( '<img src="/rest/getCoverArt.view?id=' + id + '&u=' + username + '&p=' + password + '&size=100"/>' );
+
+	stream('/rest/stream.view?id=' + id + '&format=' + fmt);
+}
+
 // Begins streaming audio from a given URL.
 function stream( url ) {
 
