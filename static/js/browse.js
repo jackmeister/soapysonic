@@ -97,17 +97,6 @@ function playSong( id ) {
 	});
 	// Update the "now playing" panel cover art
 	$( '#np-cover-art' ).html( '<img src="/rest/getCoverArt.view?id=' + id + '&u=' + username + '&p=' + password + '&size=100"/>' );
-	/*$.ajax({
-	'url': '/rest/getCoverArt.view?id=' + id + '&size=100'
-	, dataType: 'text'
-	, 'beforeSend': function( xhr ) {
-		xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username + ':' + password))
-	}
-	, success: function( response, textStatus, jqXHR ) {
-		console.log('id= '+id);
-		$( '#np-cover-art' ).html( '' );
-	}
-	});*/
 
 	stream('/rest/stream.view?id=' + id);
 }
