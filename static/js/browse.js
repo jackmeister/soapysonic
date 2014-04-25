@@ -30,7 +30,7 @@ function showLibrary() {
 			xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username + ':' + password))
 		}
 		, success: function( response, textStatus, jqXHR ) {
-			$( '#library-browser' ).html('<h1><div class="title">Library</div></h1>');
+			$( '#library-browser' ).html('<h1>Library</h1>');
 			$( '#library-browser' ).append('<div class="artist-list"><ul>');
 
 				$( response ).find( 'artist' ).each( function(){
@@ -63,7 +63,7 @@ function showArtist( id ) {
 		}
 		, success: function( response, textStatus, jqXHR ) {
 			var $artist = $( response ).find( 'artist' );
-			$( '#library-browser' ).html('<h1><div class="title">' + $artist.attr('name') + '</div></h1>');
+			$( '#library-browser' ).html('<h1>' + $artist.attr('name') + '</h1>');
 			$( '#library-browser' ).append('<div class="album-list"><ul>');
 
 				$( response ).find( 'album' ).each( function(){
@@ -99,7 +99,7 @@ function showAlbum( id ) {
 	}
 	, success: function( response, textStatus, jqXHR ) {
 		var $album = $( response ).find( 'album' );
-		$( '#library-browser' ).html('<h1><div class="title">' + $album.attr('name') + '</div></h1>');
+		$( '#library-browser' ).html('<h1>' + $album.attr('name') + '</h1>');
 		$( '#library-browser' ).append('<div class="album-list">');
 		$( response ).find( 'song' ).each( function(){
 			var $song = $(this);
