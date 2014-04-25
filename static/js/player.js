@@ -16,6 +16,7 @@ function playSong( id ) {
 	}
 	});
 	// Update the "now playing" panel cover art
+	// TODO: obfuscate password
 	$( '#np-cover-art' ).html( '<img src="/rest/getCoverArt.view?id=' + id + '&u=' + username + '&p=' + password + '&size=100"/>' );
 
 	stream('/rest/stream.view?id=' + id + '&format=' + fmt);
@@ -26,12 +27,13 @@ function stream( url ) {
 
 	var buffer = null;
 	loadAudio(url);
-	// Wait for loadAudio to create an AudioBuffer. TODO: there is almost certainly a better way to do this 
+	// Wait for loadAudio to create an AudioBuffer
+	// TODO: there is almost certainly a more performant way to do this 
 	playWhenReady();
 	function playWhenReady() {
 		if (buffer === null) {
 			console.log('null buffer, waiting');
-			setTimeout(playWhenReady, 100)
+			setTimeout(playWhenReady, 500)
 		} else {
 			playAudio(buffer);
 		}

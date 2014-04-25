@@ -16,33 +16,18 @@ body
 	position: relative;
 	margin-left: 5%;
 }
-
-.album
-{
-	position: relative;
-	margin-top: 10px;
-}
-.album dt
-{
-	font-weight: bold;
-}
-.album dd
-{
-	position: absolute;
-	margin-left: 0;
-	font-style: italic;
-}
-.song
-{
-	margin-top: 10px;
-}
-.song dt
-{
-	font-weight: bold;
-}
 a
 {
 	cursor: pointer;
+}
+li
+{
+	margin-top: 10px;
+	list-style-type: none;
+}
+.song li
+{
+	font-weight: bold;
 }
 
 #sidebar

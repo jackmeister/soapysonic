@@ -100,11 +100,11 @@ function showAlbum( id ) {
 	, success: function( response, textStatus, jqXHR ) {
 		var $album = $( response ).find( 'album' );
 		$( '#library-browser' ).html('<h1>' + $album.attr('name') + '</h1>');
-		$( '#library-browser' ).append('<div class="album-list">');
+		$( '#library-browser' ).append('<div class="album-list"><ul>');
 		$( response ).find( 'song' ).each( function(){
 			var $song = $(this);
 			var $html = '<div class="song" id="' + $song.attr('id') + '">';
-			$html += '<a><dt>' + $song.attr('title') + '</a></dt>';
+			$html += '<li><a>' + $song.attr('title') + '</a></li>';
 			$html += '</div>';
 			$( '#library-browser' ).append( $html );
 		});
