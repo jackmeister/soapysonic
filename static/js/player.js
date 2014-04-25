@@ -1,3 +1,5 @@
+/* Javascript/JQuery functions for playing music. */
+
 // Plays a single song, updating the "now playing" panel appropriately. 
 function playSong( id ) {
 	var fmt = 'mp3';	// streaming format to request

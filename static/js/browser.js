@@ -1,4 +1,5 @@
-/* JQuery functions for browsing the library. */
+/* Javascript/JQuery functions for browsing the library. */
+
 $( document ).ready(function() {
 	username = 'jack';
 	password = 'pass';
