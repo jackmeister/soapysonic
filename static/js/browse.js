@@ -21,39 +21,75 @@ function init() {
 }
 
 
-// Renders the list of albums alphabetically by artist.
+// Renders the list of artists.
 function showLibrary() {
 	$.ajax({
-		'url': '/rest/getAlbumList2.view?type=alphabeticalByArtist&size=500'
+		'url': '/rest/getArtists.view'
 		, dataType: 'xml'
 		, 'beforeSend': function( xhr ) {
 			xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username + ':' + password))
 		}
 		, success: function( response, textStatus, jqXHR ) {
-			$( '#library-browser' ).html('<h1><div class="title">Albums</div></h1>');
-			$( '#library-browser' ).append('<div class="album-list">');
+			$( '#library-browser' ).html('<h1><div class="title">Library</div></h1>');
+			$( '#library-browser' ).append('<div class="artist-list"><ul>');
 
-				$( response ).find( 'album' ).each( function(){
-					var $album = $(this);
-					var $html = '<div class="album" id="' + $album.attr('id') + '">';
-					$html += '<a><dt>' + $album.attr('name') + '</dt>';
-					$html += '<dd>' + $album.attr('artist') + '</dd></a>';
+				$( response ).find( 'artist' ).each( function(){
+					var $artist = $(this);
+					var $html = '<div class="artist" id="' + $artist.attr('id') + '">';
+					$html += '<li><a>' + $artist.attr('name') + '</a></li>';
 					$html += '</div>';
 					$( '#library-browser' ).append( $html );
 				})
-				$( '#library-browser' ).append( '</div>' );
+				$( '#library-browser' ).append( '</ul></div>' );
 
-				// Add onclick handlers to the newly created divs
-				$( '.album' ).click(function() {
-					showAlbum( $(this).attr('id') );
+				// Add onclick handlers to the new divs
+				$( '.artist' ).click(function() {
+					showArtist( $(this).attr('id') );
 				});
+
 				// Update the sidebar
 				$( '#nav' ).html('');
 			}
 	});
 }
 
-// Renders the list of songs in an album.
+// Renders artist info, including an album list.
+function showArtist( id ) {
+	$.ajax({
+		'url': '/rest/getArtist.view?id=' + id
+		, dataType: 'xml'
+		, 'beforeSend': function( xhr ) {
+			xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username + ':' + password))
+		}
+		, success: function( response, textStatus, jqXHR ) {
+			var $artist = $( response ).find( 'artist' );
+			$( '#library-browser' ).html('<h1><div class="title">' + $artist.attr('name') + '</div></h1>');
+			$( '#library-browser' ).append('<div class="album-list"><ul>');
+
+				$( response ).find( 'album' ).each( function(){
+					var $album = $(this);
+					var $html = '<div class="album" id="' + $album.attr('id') + '">';
+					$html += '<li><a>' + $album.attr('name') + '</a></li>';
+					$html += '</div>';
+					$( '#library-browser' ).append( $html );
+				})
+				$( '#library-browser' ).append( '</ul></div>' );
+
+				// Add onclick handlers to the new divs
+				$( '.album' ).click(function() {
+					showAlbum( $(this).attr('id') );
+				});
+
+				// Update the sidebar
+				$( '#nav' ).html('<div id="nav-library"><h1><a>Library</a></h1></div>');
+				$( '#nav-library' ).click(function() {
+					showLibrary();
+				});
+			}
+	});
+}
+
+// Renders album info, including a list of songs.
 function showAlbum( id ) {
 	$.ajax({
 	'url': '/rest/getAlbum.view?id=' + id
@@ -62,8 +98,8 @@ function showAlbum( id ) {
 		xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username + ':' + password))
 	}
 	, success: function( response, textStatus, jqXHR ) {
-		var $album = $( response ).find( 'album' ).attr('name');
-		$( '#library-browser' ).html('<h1><div class="title">' + $album + '</div></h1>');
+		var $album = $( response ).find( 'album' );
+		$( '#library-browser' ).html('<h1><div class="title">' + $album.attr('name') + '</div></h1>');
 		$( '#library-browser' ).append('<div class="album-list">');
 		$( response ).find( 'song' ).each( function(){
 			var $song = $(this);
@@ -78,10 +114,11 @@ function showAlbum( id ) {
 		$( '.song' ).click(function() {
 			playSong( $(this).attr('id') );
 		});
+
 		// Update the sidebar
-		$( '#nav' ).html('<div id="nav-library"><a><h1>Library</h1></a></div>');
-		$( '#nav-library' ).click(function() {
-			showLibrary();
+		$( '#nav' ).append('<div id="nav-artist"><h2><a>' + $album.attr('artist') + '</a></h2></div>');
+		$( '#nav-artist' ).click(function() {
+			showArtist( $album.attr('artistId') );
 		});
 	}
 	});

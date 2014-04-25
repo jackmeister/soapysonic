@@ -58,11 +58,14 @@ a
 {
 	position: absolute;
 	left: 10%;
-	text-align: center;
 }
 #nav h1
 {
 	font-size: 150%;
+}
+#nav h2
+{
+	font-size: 125%;
 }
 #login h1
 {
