@@ -53,6 +53,7 @@ a
 	height: 100%;
 	width: var(--sidebar-width);
 	background: linear-gradient(to right, rgba(169,219,128,1) 0%,rgba(150,197,111,1) 100%);
+	border-right: solid black 2px;
 }
 #sidebar-wrap
 {
