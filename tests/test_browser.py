@@ -30,10 +30,26 @@ class TestLibraryBrowser(unittest.TestCase):
 	def testPageTitle(self):
 		self.assertEquals('Music', self.browser.title)
 
+	def testBrowseToArtist(self):
+		self.browser.find_element_by_id('eef9ef2d-43aa-4e79-85d9-ef7d3bae6e36').click() #The Band
+		assert self.browser.find_element(By.LINK_TEXT, 'Islands') is not None
+
 	def testBrowseToAlbum(self):
 		self.browser.find_element_by_id('eef9ef2d-43aa-4e79-85d9-ef7d3bae6e36').click() #The Band
 		self.browser.find_element_by_id('66660f9c-968d-4a3a-98a3-1e98aa590373').click() #Islands
 		assert self.browser.find_element(By.LINK_TEXT, 'Georgia On My Mind') is not None
+
+	def testBackToLibrary(self):
+		self.browser.find_element_by_id('eef9ef2d-43aa-4e79-85d9-ef7d3bae6e36').click() #The Band
+		self.browser.find_element_by_id('66660f9c-968d-4a3a-98a3-1e98aa590373').click() #Islands
+		self.browser.find_element_by_id('nav-library').click()
+		assert self.browser.find_element(By.LINK_TEXT, 'The Band') is not None
+
+	def testBackToArtist(self):
+		self.browser.find_element_by_id('eef9ef2d-43aa-4e79-85d9-ef7d3bae6e36').click() #The Band
+		self.browser.find_element_by_id('66660f9c-968d-4a3a-98a3-1e98aa590373').click() #Islands
+		self.browser.find_element_by_id('nav-artist').click()
+		assert self.browser.find_element(By.LINK_TEXT, 'Islands') is not None
 
 
 if __name__ == '__main__':
