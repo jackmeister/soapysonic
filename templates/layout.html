@@ -18,49 +18,59 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -#}
 <!DOCTYPE html>
-<title>Supysonic</title>
+<title>Music</title>
 
-<link href="/static/css/base.css" rel="stylesheet" type="text/css" media="all" />
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='/static/css/base.css' rel='stylesheet' type='text/css' media='all' />
 
 <header>
-	<p><a href="{{ url_for('index') }}">Home</a>
-	{% if session.userid %}<a href="{{ url_for('playlist_index') }}">Playlists</a> | <a href="{{ url_for('user_profile') }}">{{ session.username }}</a> - <a href="{{ url_for('logout') }}">Log out</a>
-	{% else %}<a href="{{ url_for('login') }}">Log in</a>
-	{% endif %}</p>
-		{% if get_flashed_messages() %}
-	<div class="flash">
-		{% for message in get_flashed_messages() %}
-		<p>{{ message }}</p>
-		{% endfor %}
-	</div>
-	{% endif %}
-	{% block body %}{% endblock %}
 </header>
 
 <body>
-	<div id="wrap">
-		<div id="library-browser">
-			<h1><div class="title">Loading library...</div></h1>
+	<div id='sidebar'>
+		<div id='sidebar-wrap'>
+			<div id='nav'></div>
+			<div id='login'>
+			{% if session.userid %}
+				<h1><a href='{{ url_for('user_profile') }}'>{{ session.	username }}</a>
+				| <a href='{{ url_for('logout') }}'>Log out</a></h1>
+			{% else %}	
+				<h1><a href='{{ url_for('login') }}'>Log in</a></h1>
+			{% endif %}
+			</div>
+		</div>
+	</div>
+	<div id='wrap'>
+		{% if get_flashed_messages() %}
+			<div class='flash'>
+				{% for message in get_flashed_messages() %}
+				<p>{{ message }}</p>
+				{% endfor %}
+			</div>
+		{% endif %}
+		{% block body %}{% endblock %}
+		<div id='library-browser'>
+			<h1><div class='title'>Loading library...</div></h1>
 		</div>
 	</div>
 </body>
 
 <footer>
-	<div id="now-playing">
-		<div id="np-cover-art">
+	<div id='now-playing'>
+		<div id='np-cover-art'>
 		</div>
-		<div id="np-text">
+		<div id='np-text'>
 			<div id='np-title'>
 			</div>
-			<div id="np-artist">
+			<div id='np-artist'>
 			</div>
-			<div id="np-album">
+			<div id='np-album'>
 			</div>
 		</div>
-		<div id="np-player">
+		<div id='np-player'>
 		</div>
 	</div>
 </footer>
 
-<script type="text/javascript" src="/static/js/jquery.js"></script>
-<script type="text/javascript" src="/static/js/browse.js"></script>
+<script type='text/javascript' src='/static/js/jquery.js'></script>
+<script type='text/javascript' src='/static/js/browse.js'></script>

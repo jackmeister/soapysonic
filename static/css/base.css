@@ -1,72 +1,105 @@
-header
+:root
 {
-	position:relative;
+	--sidebar-width: 200px;
+	--footer-height: 100px;
 }
 
 body
 {
-	background-color:#EEDDEE;
-	margin-bottom:150px;
+	background-color: #F5F5F5;
+	margin-bottom: 150px;
+	margin-left: var(--sidebar-width);
+	font-family: 'Open Sans', 'sans-serif';
 }
 #wrap
 {
-	position:relative;
-	margin-left:1%;
+	position: relative;
+	margin-left: 5%;
 }
 
 .album
 {
-	position:relative;
-	margin-top:30px;
+	position: relative;
+	margin-top: 50px;
 }
 .album dt
 {
-	font-weight:bold;
+	font-weight: bold;
 }
 .album dd
 {
-	position:absolute;
-	margin-left:0;
-	font-style:italic;
+	position: absolute;
+	margin-left: 0;
+	font-style: italic;
 }
-
 .song
 {
-	margin-top:20px;
+	margin-top: 25px;
 }
 .song dt
 {
-	font-weight:bold;
+	font-weight: bold;
+}
+a
+{
+	cursor: pointer;
+}
+
+#sidebar
+{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	height: 100%;
+	width: var(--sidebar-width);
+	background: linear-gradient(to right, rgba(169,219,128,1) 0%,rgba(150,197,111,1) 100%);
+}
+#sidebar-wrap
+{
+	position: absolute;
+	left: 10%;
+	text-align: center;
+}
+#nav h1
+{
+	font-size: 150%;
+}
+#login h1
+{
+	position: fixed;
+	font-size: 110%;
+	bottom: calc(var(--footer-height));
 }
 
 footer
 {
-	position:fixed;
-	bottom:0;
-	left:0;
-	height:100px;
-	width:100%;
-	background-color:#CCFFDD;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	height: var(--footer-height);
+	width: 100%;
+	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+	box-shadow: 0px 0px 10px #888888;
 }
 #np-text
 {
-	position:absolute;
-	left:125px;
-	bottom:25px;
+	position: absolute;
+	left: 125px;
+	bottom: 20%;
 }
 #np-title
 {
-	position:relative;
-	font-weight:bold;
+	position: relative;
+	font-weight: bold;
 }
 #np-artist
 {
-	position:relative;
+	position: relative;
 }
 
 #np-player
 {
-	position:fixed;
-	bottom:50px;
-	right:10%;
+	position: fixed;
+	bottom: 50px;
+	right: 10%;
 }

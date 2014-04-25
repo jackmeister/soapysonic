@@ -36,8 +36,8 @@ function showLibrary() {
 				$( response ).find( 'album' ).each( function(){
 					var $album = $(this);
 					var $html = '<div class="album" id="' + $album.attr('id') + '">';
-					$html += '<dt>' + $album.attr('name') + '</dt>';
-					$html += '<dd>' + $album.attr('artist') + '</dd>';
+					$html += '<a><dt>' + $album.attr('name') + '</dt>';
+					$html += '<dd>' + $album.attr('artist') + '</dd></a>';
 					$html += '</div>';
 					$( '#library-browser' ).append( $html );
 				})
@@ -47,6 +47,8 @@ function showLibrary() {
 				$( '.album' ).click(function() {
 					showAlbum( $(this).attr('id') );
 				});
+				// Update the sidebar
+				$( '#nav' ).html('');
 			}
 	});
 }
@@ -66,14 +68,20 @@ function showAlbum( id ) {
 		$( response ).find( 'song' ).each( function(){
 			var $song = $(this);
 			var $html = '<div class="song" id="' + $song.attr('id') + '">';
-			$html += '<dt>' + $song.attr('title') + '</dt>';
+			$html += '<a><dt>' + $song.attr('title') + '</a></dt>';
 			$html += '</div>';
 			$( '#library-browser' ).append( $html );
-		})
+		});
 		$( '#library-browser' ).append( '</div>' );
+
 		// Add onclick handlers to the newly created divs
 		$( '.song' ).click(function() {
 			playSong( $(this).attr('id') );
+		});
+		// Update the sidebar
+		$( '#nav' ).html('<div id="nav-library"><a><h1>Library</h1></a></div>');
+		$( '#nav-library' ).click(function() {
+			showLibrary();
 		});
 	}
 	});
