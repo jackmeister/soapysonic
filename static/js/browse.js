@@ -96,16 +96,18 @@ function playSong( id ) {
 	}
 	});
 	// Update the "now playing" panel cover art
-	$.ajax({
+	$( '#np-cover-art' ).html( '<img src="/rest/getCoverArt.view?id=' + id + '&u=' + username + '&p=' + password + '&size=100"/>' );
+	/*$.ajax({
 	'url': '/rest/getCoverArt.view?id=' + id + '&size=100'
 	, dataType: 'text'
 	, 'beforeSend': function( xhr ) {
 		xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username + ':' + password))
 	}
 	, success: function( response, textStatus, jqXHR ) {
-		$( '#np-cover-art' ).html( '<img src=&quot;data:image/jpeg;base64, ' + response + '&quot; >' ).text();
+		console.log('id= '+id);
+		$( '#np-cover-art' ).html( '' );
 	}
-	});
+	});*/
 
 	stream('/rest/stream.view?id=' + id);
 }
@@ -121,7 +123,7 @@ function stream( url ) {
 	function playWhenReady() {
 		if (buffer === null) {
 			console.log('null buffer, waiting');
-			setTimeout(playWhenReady, 50)
+			setTimeout(playWhenReady, 100)
 		} else {
 			playAudio(buffer);
 		}
@@ -147,9 +149,9 @@ function stream( url ) {
 	// Plays audio from a given ArrayBuffer.
 	function playAudio( buffer ) {
 		console.log('playing from ' + buffer);
-		var source = context.createBufferSource(); // creates a sound source
-		source.buffer = buffer;                    // tell the source which sound to play
-		source.connect(context.destination);       // connect the source to the context's destination (the speakers)
-		source.start(0);                           // play the source now
+		var source = context.createBufferSource();
+		source.buffer = buffer;
+		source.connect(context.destination);
+		source.start(0);
 	}
 }
