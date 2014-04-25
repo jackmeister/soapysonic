@@ -1,6 +1,6 @@
 // Plays a single song, updating the "now playing" panel appropriately. 
 function playSong( id ) {
-	var fmt = 'ogg';	// streaming format to request
+	var fmt = 'mp3';	// streaming format to request
 	// Update the "now playing" panel text
 	$.ajax({
 	'url': '/rest/getSong.view?id=' + id
@@ -26,9 +26,8 @@ function stream( url ) {
 
 	var buffer = null;
 	loadAudio(url);
-	// Wait for loadAudio to create an AudioBuffer
+	// Wait for loadAudio to create an AudioBuffer. TODO: there is almost certainly a better way to do this 
 	playWhenReady();
-
 	function playWhenReady() {
 		if (buffer === null) {
 			console.log('null buffer, waiting');
@@ -49,7 +48,6 @@ function stream( url ) {
 		request.onload = function() {
 			context.decodeAudioData(request.response, function(buf) {
 		  		buffer = buf;
-				console.log('buffer: ' + buffer);
 			}, function() {console.log('audio decoding error')} );
 		}
 		request.send();
