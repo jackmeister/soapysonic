@@ -45,21 +45,25 @@ function playSongs( ids, index ) {
 
 	// Loop for playing automatically
 	function _play( ids ) {
-		playSong( ids[index] );
 		if (index < ids.length) {
+			playSong( ids[index] );
 			_waitForNext(false, ids);
 		} else _playlistOver();
 
 		// Two phases: wait for playback to start, then wait for it to end (but not due to pausing)
 		// TODO: there is almost certainly a better way to do this 
 		function _waitForNext( hasStarted ) {
+			console.log('boop');
 			if (skip) {
 				skip = false;
 				_play(ids);
 			} else if (!hasStarted) {
 				buffAudio._isPlaying ? _waitForNext(true) : setTimeout(function(){_waitForNext(false)}, 500);
+			} else if (buffAudio._isPlaying || paused){
+				setTimeout(function(){_waitForNext(true)}, 500);
 			} else {
-				(buffAudio._isPlaying || paused) ? setTimeout(function(){_waitForNext(true)}, 500) : _skip(index+1);
+				_skip(index+1);
+				_waitForNext(false);
 			}
 		}
 	}
@@ -67,17 +71,26 @@ function playSongs( ids, index ) {
 
 // Clears and hides the "now playing" panel.
 function clearNowPlaying() {
-	$( '#sidebar' ).css('height', '100%');
-	$( 'body' ).css('margin-bottom', '25px');
-	$( 'footer' ).css('height', '0');
+	hideNowPlaying();
 	$( '#np-title' ).empty();
 	$( '#np-artist' ).empty();
 	$( '#np-album' ).empty();
 	$( '#np-cover-art' ).empty();
 }
+function hideNowPlaying() {
+	$( '#sidebar' ).css('height', '100%');
+	$( 'body' ).css('margin-bottom', '25px');
+	$( 'footer' ).css('height', '0');
+}
+function showNowPlaying() {
+	$( '#sidebar' ).css('height', 'calc( 100% - 100px )');
+	$( 'body' ).css('margin-bottom', '125px');
+	$( 'footer' ).css('height', '100px');
+}
 
 // Plays a single song, updating the "now playing" panel appropriately. 
 function playSong( id ) {
+	showNowPlaying();
 	musicThrobber.start();
 
 	// Update the "now playing" panel
@@ -106,9 +119,6 @@ function playSong( id ) {
 
 	// Begins streaming audio from a given URL.
 	function _stream( url ) {
-		$( 'body' ).css('margin-bottom', '125px');
-		$( 'footer' ).css('height', '100px');
-		$( '#sidebar' ).css('height', 'calc( 100% - 100px )');
 	
 		var buffer = null;
 	
