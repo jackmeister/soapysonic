@@ -14,6 +14,26 @@ function pause() {
 	});
 }
 
+// Sequentially plays all songs in the array passed in.
+// TODO: this is trash
+function playSongs( ids ) {
+
+	playSong(ids.shift());
+	waitForNext(false, ids);
+
+	function waitForNext( hasStarted ) {
+		if (!hasStarted) {
+			buffAudio._isPlaying ? waitForNext(true) : setTimeout(function(){waitForNext(false)}, 500);
+		} else {
+			if (buffAudio._isPlaying) {
+				setTimeout(function(){waitForNext(true)}, 500);
+			} else {
+				if (ids.length > 0) playSongs(ids);
+			}
+		}
+	}
+}
+
 // Plays a single song, updating the "now playing" panel appropriately. 
 function playSong( id ) {
 	musicThrobber.start();
@@ -74,7 +94,7 @@ function stream( url ) {
 	function playWhenReady() {
 		if (buffer === null) {
 			console.log('null buffer, waiting');
-			setTimeout(playWhenReady, 500)
+			setTimeout(playWhenReady, 500);
 		} else {
 			buffAudio.initNewBuffer(buffer);
 			buffAudio.play();

@@ -18,8 +18,6 @@ function init() {
 
 	function createAudioContext(){
 		try {
-			// Account for prefixing in Safari, Opera, mobile Chrome
-			window.AudioContext = window.AudioContext || window.webkitAudioContext;
 			audioContext = new AudioContext();
 		}
 		catch(e) {
@@ -148,9 +146,9 @@ function showAlbum( id ) {
 			$( '#library-browser' ).append('<div class="album-list"><ul>');
 			$( response ).find( 'song' ).each( function(){
 				var $song = $(this);
-				var $html = '<div class="song" id="' + $song.attr('id') + '">';
-				$html += '<li><a>' + $song.attr('title') + '</a></li>';
-				$html += '</div>';
+				var $html = '<li><div class="song" id="' + $song.attr('id') + '">';
+				$html += '<a>' + $song.attr('title') + '</a>';
+				$html += '</div></li>';
 				$( '#library-browser' ).append( $html );
 			});
 			$( '#library-browser' ).append( '</div>' );
@@ -158,6 +156,11 @@ function showAlbum( id ) {
 			// Add onclick handlers to the newly created divs
 			$( '.song' ).click(function() {
 				playSong( $(this).attr('id') );
+			});
+			$( '.play-all' ).click(function(){
+				var ids = [];
+				$( '.song' ).each(function() { ids.push($(this).attr('id')) });
+				playSongs( ids );
 			});
 
 			// Update the sidebar

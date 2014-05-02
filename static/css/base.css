@@ -4,6 +4,7 @@
 	--sidebar-margin: 10%;
 	--footer-height: 100px;
 	--controls-width: 275px;
+	--footer-transition-time: 0.2s;
 }
 
 body
@@ -12,7 +13,7 @@ body
 	font-family: 'Open Sans', 'sans-serif';
 	margin-left: var(--sidebar-width);
 	margin-bottom: 25px;
-	transition: margin-bottom 0.2s ease;
+	transition: margin-bottom var(--footer-transition-time) ease;
 }
 #wrap
 {
@@ -28,9 +29,9 @@ li
 	margin-top: 10px;
 	list-style-type: none;
 }
-.song li
+.album
 {
-	font-weight: bold;
+	font-style: italic;
 }
 
 #sidebar
@@ -40,7 +41,7 @@ li
 	top: 0;
 	width: var(--sidebar-width);
 	height: 100%;
-	transition: height 0.2s ease;
+	transition: height var(--footer-transition-time) ease;
 	background: linear-gradient(to right, rgba(169,219,128,1) 0%,rgba(150,197,111,1) 100%);
 	border-right: solid black 2px;
 }
@@ -77,9 +78,9 @@ footer
 	left: 0;
 	width: 100%;
 	height: 0;
-	transition: height 0.2s ease;
+	transition: height var(--footer-transition-time) ease;
 	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
-	box-shadow: 0px 0px 10px #888888;
+	box-shadow: 0px 0px 6px #888888;
 }
 #now-playing
 {
