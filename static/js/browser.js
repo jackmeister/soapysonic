@@ -144,6 +144,7 @@ function showAlbum( id ) {
 		, success: function( response, textStatus, jqXHR ) {
 			var $album = $( response ).find( 'album' );
 			$( '#library-browser' ).html('<h1>' + $album.attr('name') + '</h1>');
+			$( '#library-browser' ).html('<div class=play-all><h2><a>Play all</a></h2></div>');
 			$( '#library-browser' ).append('<div class="album-list"><ul>');
 			$( response ).find( 'song' ).each( function(){
 				var $song = $(this);

@@ -30,11 +30,15 @@ function playSong( id ) {
 		$( '#np-title' ).text( $song.attr('title') );
 		$( '#np-artist' ).text( $song.attr('artist') );
 		$( '#np-album' ).text( $song.attr('album') );
-		// TODO: obfuscate password
-		$( '#np-cover-art' ).html( '<img src="/rest/getCoverArt.view?id=' + id + '&u=' + username + '&p=' + password + '&size=100"/>' );
 
-		var fmt = 'mp3';	// streaming format to request
-		stream('/rest/stream.view?id=' + id + '&format=' + fmt);
+		// TODO: obfuscate password
+		$( '#np-cover-art' ).css( 'display', 'none' );
+		$( '#np-cover-art' ).html( '<img src="/rest/getCoverArt.view?id=' + id + '&u=' + username + '&p=' + password + '&size=100"/>' );
+		$( '#np-cover-art img' ).on('load', function() {
+			$( '#np-cover-art' ).css( 'display', 'block' );
+		});
+
+		stream('/rest/stream.view?id=' + id + '&format=mp3');
 	}
 	});
 }
