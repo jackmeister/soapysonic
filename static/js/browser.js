@@ -134,6 +134,7 @@ function showArtist( id ) {
 function showAlbum( id ) {
 	throbber.start();
 
+	console.log(id);
 	$.ajax({
 		'url': '/rest/getAlbum.view?id=' + id
 		, dataType: 'xml'
@@ -142,18 +143,29 @@ function showAlbum( id ) {
 		}
 		, success: function( response, textStatus, jqXHR ) {
 			var $album = $( response ).find( 'album' );
-			$( '#library-browser' ).html('<h1>' + $album.attr('name') + '</h1>');
-			$( '#library-browser' ).append('<h2>' + $album.attr('year') + '</h2>');
-			$( '#library-browser' ).append('<div class=play-all><a>Play all</a></div>');
-			$( '#library-browser' ).append('<div class="album-list"><ul>');
+
+			$( '#library-browser' ).html('<div id="title-panel"><div id="cover-art"></div></div><div id=track-listing></div>');
+			// Show cover art only after loaded
+			var id = $( response ).find( 'song' ).attr('id');
+			$( '#cover-art' ).css( 'opacity', '0' );
+			$( '#cover-art' ).html( '<img src="/rest/getCoverArt.view?id=' + id + '&u=' + username + '&p=' + password + '&size=200"/>' );
+			$( '#cover-art img' ).on('load', function() {
+				$( '#cover-art' ).css( 'opacity', '100' );
+			});
+			$( '#title-panel' ).append('<div id=title-text><h1>' + $album.attr('name') + '</h1></div>');
+			$( '#title-text' ).append('<h2>' + $album.attr('artist') + '</h1>');
+
+			// Show "play all" and a track list
+			$( '#track-listing' ).append('<div class=play-all><a>&#9654; Play all</a></div>');
+			$( '#track-listing' ).append('<div class="album-list"><ul>');
 			$( response ).find( 'song' ).each( function(){
 				var $song = $(this);
 				var $html = '<li><div class="song" id="' + $song.attr('id') + '">';
 				$html += '<a>' + $song.attr('title') + '</a>';
 				$html += '</div></li>';
-				$( '#library-browser' ).append( $html );
+				$( '#track-listing' ).append( $html );
 			});
-			$( '#library-browser' ).append( '</div>' );
+			$( '#track-listing' ).append( '</div>' );
 	
 			// Add onclick handlers to the newly created divs
 			var ids = [];

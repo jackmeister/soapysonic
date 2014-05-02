@@ -5,6 +5,7 @@
 	--footer-height: 100px;
 	--controls-width: 275px;
 	--footer-transition-time: 0.2s;
+	--cover-art-transition-time: 0.3s;
 }
 
 body
@@ -19,6 +20,7 @@ body
 {
 	position: absolute;
 	margin-left: 5%;
+	width: 75%;
 }
 a
 {
@@ -32,6 +34,50 @@ li
 .album
 {
 	font-style: italic;
+}
+.play-all
+{
+	font-size: 125%;
+	font-weight: bold;
+}
+#library-browser
+{
+	position: absolute;
+	width: calc(500px + 25%);
+}
+#title-panel
+{
+	position: absolute;
+	height: 200px;
+	width: 90%;
+	border: solid black 1px;
+}
+#title-text
+{
+	position: absolute;
+	left: 225px;
+	top: 15px;
+	height: 100%;
+}
+#title-text h1
+{
+	font-style: italic;
+	font-size: 225%
+}
+#title-text h2
+{
+	font-size: 175%;
+}
+#cover-art
+{
+	position: absolute;
+	opacity: 0;
+	transition: opacity var(--cover-art-transition-time) ease;
+}
+#track-listing
+{
+	position: absolute;
+	top: 225px;
 }
 
 #sidebar
@@ -91,7 +137,6 @@ footer
 #np-cover-art
 {
 	width: var(--footer-height);
-	display: none;
 }
 #np-throbber
 {

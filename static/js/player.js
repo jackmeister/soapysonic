@@ -12,6 +12,24 @@ function ctlPause() {
 	$( '#play' ).click(function(){ ctlPlay() });
 }
 
+function clearNowPlaying() {
+	hideNowPlaying();
+	$( '#np-title' ).empty();
+	$( '#np-artist' ).empty();
+	$( '#np-album' ).empty();
+	$( '#np-cover-art' ).empty();
+}
+function hideNowPlaying() {
+	$( '#sidebar' ).css('height', '100%');
+	$( 'body' ).css('margin-bottom', '25px');
+	$( 'footer' ).css('height', '0');
+}
+function showNowPlaying() {
+	$( '#sidebar' ).css('height', 'calc( 100% - 100px )');
+	$( 'body' ).css('margin-bottom', '125px');
+	$( 'footer' ).css('height', '100px');
+}
+
 // Sequentially plays all songs in the array passed in, allowing skip forward/backward.
 // Optionally accepts the index of the song playback should start on.
 function playSongs( ids, index ) {
@@ -66,25 +84,6 @@ function playSongs( ids, index ) {
 			}
 		}
 	}
-}
-
-// Clears and hides the "now playing" panel.
-function clearNowPlaying() {
-	hideNowPlaying();
-	$( '#np-title' ).empty();
-	$( '#np-artist' ).empty();
-	$( '#np-album' ).empty();
-	$( '#np-cover-art' ).empty();
-}
-function hideNowPlaying() {
-	$( '#sidebar' ).css('height', '100%');
-	$( 'body' ).css('margin-bottom', '25px');
-	$( 'footer' ).css('height', '0');
-}
-function showNowPlaying() {
-	$( '#sidebar' ).css('height', 'calc( 100% - 100px )');
-	$( 'body' ).css('margin-bottom', '125px');
-	$( 'footer' ).css('height', '100px');
 }
 
 // Plays a single song, updating the "now playing" panel appropriately. 
