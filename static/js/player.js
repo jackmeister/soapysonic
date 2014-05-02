@@ -1,12 +1,12 @@
 // Playback controls
-function play() {
+function ctlPlay() {
 	buffAudio.play();
 	$( '#play-pause' ).html("<div id='pause'><a><image src='/static/img/player/pause.png'></a></div>");
 	$( '#pause' ).click(function(){
 		pause();
 	});
 }
-function pause() {
+function ctlPause() {
 	buffAudio.pause();
 	$( '#play-pause' ).html("<div id='play'><a><image src='/static/img/player/play.png'></a></div>");
 	$( '#play' ).click(function(){
@@ -17,18 +17,16 @@ function pause() {
 // Sequentially plays all songs in the array passed in.
 // TODO: this is trash
 function playSongs( ids ) {
-
-	playSong(ids.shift());
-	waitForNext(false, ids);
-
-	function waitForNext( hasStarted ) {
-		if (!hasStarted) {
-			buffAudio._isPlaying ? waitForNext(true) : setTimeout(function(){waitForNext(false)}, 500);
-		} else {
-			if (buffAudio._isPlaying) {
-				setTimeout(function(){waitForNext(true)}, 500);
+	_playSongs( ids, 0 );
+	function _playSongs( ids, index ) {
+		playSong( ids[index++] );
+		if (index < ids.length) waitForNext(false, ids);
+	
+		function waitForNext( hasStarted ) {
+			if (!hasStarted) {
+				buffAudio._isPlaying ? waitForNext(true) : setTimeout(function(){waitForNext(false)}, 500);
 			} else {
-				if (ids.length > 0) playSongs(ids);
+				buffAudio._isPlaying ? setTimeout(function(){waitForNext(true)}, 500) : _playSongs(ids, index);
 			}
 		}
 	}
