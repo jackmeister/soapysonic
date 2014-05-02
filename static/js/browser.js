@@ -155,12 +155,16 @@ function showAlbum( id ) {
 			$( '#library-browser' ).append( '</div>' );
 	
 			// Add onclick handlers to the newly created divs
-			$( '.song' ).click(function() {
-				playSong( $(this).attr('id') );
+			var ids = [];
+			var song_count = 0;
+			$( '.song' ).each(function() { 
+				ids.push( $(this).attr('id') );
+				$( this ).click(function(cnt) {
+					return function() { playSongs(ids, cnt) };
+				}(song_count));
+				++song_count;
 			});
 			$( '.play-all' ).click(function(){
-				var ids = [];
-				$( '.song' ).each(function() { ids.push($(this).attr('id')) });
 				playSongs( ids );
 			});
 

@@ -12,23 +12,68 @@ function ctlPause() {
 	$( '#play' ).click(function(){ ctlPlay() });
 }
 
-// Sequentially plays all songs in the array passed in.
-function playSongs( ids ) {
-	_playSongs( ids, 0 );
-	function _playSongs( ids, index ) {
-		playSong( ids[index++] );
-		if (index < ids.length) waitForNext(false, ids);
-	
+// Sequentially plays all songs in the array passed in, allowing skip forward/backward.
+// Optionally accepts the index of the song playback should start on.
+function playSongs( ids, index ) {
+	if (typeof index === 'undefined') index = 0;
+	var skip = false;
+	_play(ids);
+
+	// Bind player controls specific to playlists
+	$( '#skip-fwd' ).click(function(){ _skip(index+1) });
+	$( '#skip-bwd' ).click(function(){ _skip(index-1) });
+
+	// Skips to an index, or ends the playlist if the index is invalid.
+	function _skip( to ) {
+		if (to < 0) {
+			_skip(0);
+		} else if (to >= ids.length) {
+			_playlistOver();
+		} else {
+			index = to;
+			skip = true;
+			buffAudio.stop();
+		}
+	}
+
+	// Cleans up after the playlist ends.
+	function _playlistOver() {
+		skip = false;
+		buffAudio.stop();
+		clearNowPlaying();
+	}
+
+	// Loop for playing automatically
+	function _play( ids ) {
+		playSong( ids[index] );
+		if (index < ids.length) {
+			_waitForNext(false, ids);
+		} else _playlistOver();
+
 		// Two phases: wait for playback to start, then wait for it to end (but not due to pausing)
-		function waitForNext( hasStarted ) {
-			if (!hasStarted) {
-				buffAudio._isPlaying ? waitForNext(true) : setTimeout(function(){waitForNext(false)}, 500);
+		// TODO: there is almost certainly a better way to do this 
+		function _waitForNext( hasStarted ) {
+			if (skip) {
+				skip = false;
+				_play(ids);
+			} else if (!hasStarted) {
+				buffAudio._isPlaying ? _waitForNext(true) : setTimeout(function(){_waitForNext(false)}, 500);
 			} else {
-				console.log('hasstarted, paused=' + paused);
-				(buffAudio._isPlaying || paused) ? setTimeout(function(){waitForNext(true)}, 500) : _playSongs(ids, index);
+				(buffAudio._isPlaying || paused) ? setTimeout(function(){_waitForNext(true)}, 500) : _skip(index+1);
 			}
 		}
 	}
+}
+
+// Clears and hides the "now playing" panel.
+function clearNowPlaying() {
+	$( '#sidebar' ).css('height', '100%');
+	$( 'body' ).css('margin-bottom', '25px');
+	$( 'footer' ).css('height', '0');
+	$( '#np-title' ).empty();
+	$( '#np-artist' ).empty();
+	$( '#np-album' ).empty();
+	$( '#np-cover-art' ).empty();
 }
 
 // Plays a single song, updating the "now playing" panel appropriately. 
@@ -55,47 +100,48 @@ function playSong( id ) {
 			$( '#np-cover-art' ).css( 'display', 'block' );
 		});
 
-		stream('/rest/stream.view?id=' + id + '&format=mp3');
+		_stream('/rest/stream.view?id=' + id + '&format=mp3');
 	}
 	});
-}
 
-// Begins streaming audio from a given URL.
-function stream( url ) {
-	$( 'body' ).css('margin-bottom', '125px');
-	$( 'footer' ).css('height', '100px');
-	$( '#sidebar' ).css('height', 'calc( 100% - 100px )');
-
-	var buffer = null;
-
-	loadAudio(url);
-	// Loads audio from the url and decodes it into the ArrayBuffer buffer.
-	function loadAudio( url ) {
-		// JQuery does not currently support arraybuffer as a responseType, so use XMLHttpRequest directly
-		var request = new XMLHttpRequest();
-		request.open('GET', url, true);
-		request.responseType = 'arraybuffer';
-		request.setRequestHeader('Authorization', 'Basic ' + btoa(username + ':' + password));
-		// Decode asynchronously
-		request.onload = function() {
-			audioContext.decodeAudioData(request.response, function(buf) {
-		  		buffer = buf;
-			}, function() {console.log('audio decoding error')} );
+	// Begins streaming audio from a given URL.
+	function _stream( url ) {
+		$( 'body' ).css('margin-bottom', '125px');
+		$( 'footer' ).css('height', '100px');
+		$( '#sidebar' ).css('height', 'calc( 100% - 100px )');
+	
+		var buffer = null;
+	
+		loadAudio(url);
+		// Loads audio from the url and decodes it into the ArrayBuffer buffer.
+		function loadAudio( url ) {
+			// JQuery does not currently support arraybuffer as a responseType, so use XMLHttpRequest directly
+			var request = new XMLHttpRequest();
+			request.open('GET', url, true);
+			request.responseType = 'arraybuffer';
+			request.setRequestHeader('Authorization', 'Basic ' + btoa(username + ':' + password));
+			// Decode asynchronously
+			request.onload = function() {
+				buffAudio.stop();
+				audioContext.decodeAudioData(request.response, function(buf) {
+			  		buffer = buf;
+				}, function() {console.log('audio decoding error')} );
+			}
+			request.send();
 		}
-		request.send();
-	}
-
-	// Wait for loadAudio to create an AudioBuffer
-	// TODO: there is almost certainly a more performant way to do this 
-	playWhenReady();
-	function playWhenReady() {
-		if (buffer === null) {
-			console.log('null buffer, waiting');
-			setTimeout(playWhenReady, 500);
-		} else {
-			buffAudio.initNewBuffer(buffer);
-			buffAudio.play();
-			musicThrobber.stop();
+	
+		// Wait for loadAudio to create an AudioBuffer
+		// TODO: there is almost certainly a more performant way to do this 
+		_playWhenReady();
+		function _playWhenReady() {
+			if (buffer === null) {
+				console.log('null buffer, waiting');
+				setTimeout(_playWhenReady, 500);
+			} else {
+				buffAudio.initNewBuffer(buffer);
+				buffAudio.play();
+				musicThrobber.stop();
+			}
 		}
 	}
 }
