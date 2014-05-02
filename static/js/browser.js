@@ -57,7 +57,6 @@ function init() {
 }
 
 
-
 // Renders the list of artists.
 function showLibrary() {
 	throbber.start();

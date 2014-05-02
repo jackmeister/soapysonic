@@ -41,6 +41,7 @@ function playSong( id ) {
 
 // Begins streaming audio from a given URL.
 function stream( url ) {
+	$( 'footer' ).css('height', '100px');
 	var buffer = null;
 
 	loadAudio(url);

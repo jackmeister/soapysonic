@@ -26,11 +26,11 @@
 <body>
 	<div id='sidebar'>
 		<div id='sidebar-wrap'>
-			<div id='nav'></div>
+			<div id='nav'>
+			</div>
 			<div id='login'>
 			{% if session.userid %}
-				<h1><a href='{{ url_for('user_profile') }}'>{{ session.	username }}</a>
-				| <a href='{{ url_for('logout') }}'>Log out</a></h1>
+				<h1><a href='{{ url_for('user_profile') }}'>{{ session.username }}</a> | <a href='{{ url_for('logout') }}'>Log out</a></h1>
 			{% else %}	
 				<h1><a href='{{ url_for('login') }}'>Log in</a></h1>
 			{% endif %}
