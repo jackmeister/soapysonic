@@ -10,8 +10,9 @@ body
 {
 	background-color: #F5F5F5;
 	font-family: 'Open Sans', 'sans-serif';
-	margin-bottom: calc(var(--footer-height) + 25px);
 	margin-left: var(--sidebar-width);
+	margin-bottom: 25px;
+	transition: margin-bottom 0.2s ease;
 }
 #wrap
 {
@@ -35,10 +36,11 @@ li
 #sidebar
 {
 	position: absolute;
-	bottom: 0;
 	left: 0;
-	height: 100%;
+	top: 0;
 	width: var(--sidebar-width);
+	height: 100%;
+	transition: height 0.2s ease;
 	background: linear-gradient(to right, rgba(169,219,128,1) 0%,rgba(150,197,111,1) 100%);
 	border-right: solid black 2px;
 }
@@ -57,8 +59,8 @@ li
 {
 	position: absolute;
 	left: 15px;
+	bottom: 0;
 	font-size: 50%;
-	bottom: 100px;
 }
 
 #throbber
