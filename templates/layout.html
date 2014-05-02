@@ -23,9 +23,6 @@
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 <link href='/static/css/base.css' rel='stylesheet' type='text/css' media='all' />
 
-<header>
-</header>
-
 <body>
 	<div id='sidebar'>
 		<div id='sidebar-wrap'>
@@ -51,10 +48,14 @@
 		{% block body %}{% endblock %}
 		<div id='library-browser'></div>
 	</div>
+	<div id='throbber'>
+	</div>
 </body>
 
 <footer>
 	<div id='now-playing'>
+		<div id='np-throbber'>
+		</div>
 		<div id='np-cover-art'>
 		</div>
 		<div id='np-text'>
@@ -68,8 +69,23 @@
 		<div id='np-player'>
 		</div>
 	</div>
+	<div id='controls'>
+		<div id='skip-bwd'>
+			<a><image src='/static/img/player/skip-bwd.png'></a>
+		</div>
+		<div id='play-pause'>
+			<div id='pause'>
+				<a><image src='/static/img/player/pause.png'></a>
+			</div>
+		</div>
+		<div id='skip-fwd'>
+			<a><image src='/static/img/player/skip-fwd.png'></a>
+		</div>
+	</div>
 </footer>
 
+<script type='text/javascript' src='/static/js/throbber.js'></script>
 <script type='text/javascript' src='/static/js/jquery.js'></script>
+<script type='text/javascript' src='/static/js/buffaudio.js'></script>
 <script type='text/javascript' src='/static/js/browser.js'></script>
 <script type='text/javascript' src='/static/js/player.js'></script>
