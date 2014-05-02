@@ -4,6 +4,7 @@ $( document ).ready(function() {
 	audioContext = null;
 	throbber = null;
 	musicThrobber = null;
+	paused = false;
 
 	init();
 	buffAudio = new BuffAudio(audioContext, null)
@@ -50,7 +51,7 @@ function init() {
 
 	// Playback controls
 	$( '#pause' ).click(function(){
-		pause();
+		ctlPause();
 	});
 }
 

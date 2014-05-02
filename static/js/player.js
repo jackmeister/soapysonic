@@ -1,32 +1,31 @@
 // Playback controls
 function ctlPlay() {
+	paused = false;
 	buffAudio.play();
 	$( '#play-pause' ).html("<div id='pause'><a><image src='/static/img/player/pause.png'></a></div>");
-	$( '#pause' ).click(function(){
-		pause();
-	});
+	$( '#pause' ).click(function(){ ctlPause() });
 }
 function ctlPause() {
+	paused = true;
 	buffAudio.pause();
 	$( '#play-pause' ).html("<div id='play'><a><image src='/static/img/player/play.png'></a></div>");
-	$( '#play' ).click(function(){
-		play();
-	});
+	$( '#play' ).click(function(){ ctlPlay() });
 }
 
 // Sequentially plays all songs in the array passed in.
-// TODO: this is trash
 function playSongs( ids ) {
 	_playSongs( ids, 0 );
 	function _playSongs( ids, index ) {
 		playSong( ids[index++] );
 		if (index < ids.length) waitForNext(false, ids);
 	
+		// Two phases: wait for playback to start, then wait for it to end (but not due to pausing)
 		function waitForNext( hasStarted ) {
 			if (!hasStarted) {
 				buffAudio._isPlaying ? waitForNext(true) : setTimeout(function(){waitForNext(false)}, 500);
 			} else {
-				buffAudio._isPlaying ? setTimeout(function(){waitForNext(true)}, 500) : _playSongs(ids, index);
+				console.log('hasstarted, paused=' + paused);
+				(buffAudio._isPlaying || paused) ? setTimeout(function(){waitForNext(true)}, 500) : _playSongs(ids, index);
 			}
 		}
 	}

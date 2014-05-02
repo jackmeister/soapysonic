@@ -58,7 +58,6 @@
 
     // Play the currently loaded buffer
     this.play = function() {
-      console.log("Play");
       if (this._isPlaying) return;
       var when = 0; // when to schedule playback, 0 is immediately
       this.initSource();
@@ -92,7 +91,6 @@
 
     // Stops or pauses playback and sets playbackTime accordingly
     this.stop = function(pause) {
-      console.log("Stop");
       if (!this._isPlaying) return;
       this._isPlaying = false; // Set to flag to endOfPlayback callback that this was set manually
       this._source.stop(0);
@@ -102,7 +100,6 @@
 
     // Callback for any time playback stops/pauses
     this.endOfPlayback = function(endEvent) {
-      console.log("end of playback");
 
       // If playback stopped because end of buffer was reached
       if (this._isPlaying) this._playbackTime = 0;
