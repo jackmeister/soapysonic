@@ -53,7 +53,6 @@ function playSongs( ids, index ) {
 		// Two phases: wait for playback to start, then wait for it to end (but not due to pausing)
 		// TODO: there is almost certainly a better way to do this 
 		function _waitForNext( hasStarted ) {
-			console.log('boop');
 			if (skip) {
 				skip = false;
 				_play(ids);
